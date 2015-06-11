@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 
-import re, time
+import re
 from datetime import datetime, timedelta, timezone
 
 def to_timestamp(dt_str, tz_str):
