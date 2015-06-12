@@ -4,13 +4,14 @@
 import re
 from urllib import request
 import html
-with request.urlopen('http://www.python.org/events/python-events/') as f:
+
+with request.urlopen(r'https://www.python.org/events/python-events') as f:
 	if f.status == 200:
 		data = f.read().decode('utf8')
-		recent = re.findall(r'<ul class="list-recent-events menu">(.+?)</ul>',data,re.S)
+		data = html.unescape(data)
+		recent = re.findall(r'(<ul class="list-recent-events menu">.+?</ul>)',data,re.S)
 		time = re.findall(r'<time.*?>(.+?)</time>',recent[0],re.S)
-		time = list(map(html.unescape, time))
-		time = list(map(lambda x:re.findall(r'(.+?) <',x)[0],time))
+		time = list(map(lambda x:re.findall(r'(.+?) ?<',x)[0],time))
 		event = re.findall(r'<h3 class="event-title">(.+?)</h3>',recent[0],re.S)
 		event = list(map(lambda x:re.findall(r'<a.+?>(.+)</a>',x)[0],event))
 		place = re.findall(r'<span class="event-location">(.+?)</span>',recent[0],re.S)
